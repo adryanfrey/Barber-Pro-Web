@@ -1,0 +1,87 @@
+.bg
+    height: 100%
+    width: 100%
+    background-color: var(--dark)
+    display: flex
+    @media (max-width: 1250px)
+        flex-direction: column
+        align-items: center
+
+    .asideContainer
+        @media (max-width: 1250px)
+            width: 100%
+
+    .sectionContainer
+        padding: 5rem 3rem
+        width: 100%
+        max-width: 1000px
+
+        .titleContainer
+            display: flex
+            align-items: center
+            gap: 2rem
+
+            h1
+                color: var(--orange)
+                font-size: 33px
+        
+        .meContainer
+            display: flex
+            margin-top: 2rem
+            width: 100%
+            border-radius: 4px
+            background-color: var(--dark2)
+            padding: 2rem
+
+            .formContainer
+                width: 100%
+                display: flex
+                flex-direction: column
+
+                label
+                    display: flex
+                    flex-direction: column
+                    color: #fff
+                    margin-bottom: 1.5rem
+                    font-weight: bold
+
+                    input
+                        margin-top: .5rem
+                        height: 46px
+                        width: 100%
+                        color: #fff
+                        border-radius: 4px
+                        background-color: var(--dark)
+                        border: 1px solid #424242
+                        padding: 1rem
+                
+                .saveBtn
+                    background-color: var(--orange)
+                    height: 46px
+                    border-radius: 4px
+                    font-weight: bold
+                    transition: filter .4s
+
+                    &:hover
+                        filter: brightness(1.2)
+
+                .logOutBtn
+                    height: 46px
+                    border-radius: 4px
+                    font-weight: bold
+                    border: 2px solid #ff4040 
+                    margin-top: 1.5rem
+                    color: #ff4040
+                    transition: .4s
+
+                    &:hover
+                        background-color: #ff4040
+                        color: #fff
+
+
+.filter
+    width: 100vw
+    height: 100vh
+    background: rgba(0, 0, 0, 0.6)
+    z-index: 11
+    position: absolute

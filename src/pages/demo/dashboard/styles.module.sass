@@ -1,0 +1,74 @@
+.container
+    height: 100%
+    width: 100%
+    background-color: var(--dark)
+    display: flex
+    @media (max-width: 1250px)
+        flex-direction: column
+        align-items: center
+    
+    .asideContainer
+        @media (max-width: 1250px)
+            width: 100%
+
+    .mainContainer
+        padding: 2rem 3rem
+        width: 100%
+        overflow-y: auto
+
+        &::-webkit-scrollbar
+            width: 15px
+        &::-webkit-scrollbar-track
+            background: var(--dark2)
+        &::-webkit-scrollbar-thumb
+            background: var(--orange)
+        
+        @media (max-width: 1250px)
+            display: flex
+            flex-direction: column
+            align-items: center 
+            
+        .titleContainer
+            margin-bottom: 3rem
+
+            h1
+                color: var(--orange)
+                font-size: 2rem
+
+        .dashboardContainer
+            width: 100%
+            display: flex
+            flex-direction: column
+            @media (max-width: 1250px)
+                align-items: center
+
+            
+            
+            .thisWeek
+                width: 100%
+                max-width: 750px
+                margin-bottom: 3rem
+            
+            .thisMonth
+                width: 100%
+                max-width: 750px
+                margin-bottom: 3rem
+                position: relative
+
+                label
+                    position: absolute
+                    top: -.5rem
+                    right: 5rem
+                    color: #fff
+                    z-index: 2
+
+                    .input
+                        border: 0
+                        border-radius: 4px
+                        background: var(--dark2)
+                        color: #fff
+                        padding: .5rem
+                        margin-left: 1rem
+                        cursor: pointer
+                        z-index: 2
+                       

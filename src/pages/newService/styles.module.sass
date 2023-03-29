@@ -1,0 +1,133 @@
+.bg
+    height: 100%
+    width: 100%
+    background-color: var(--dark)
+    display: flex
+    @media (max-width: 1250px)
+        flex-direction: column
+        align-items: center
+
+    .asideContainer
+        @media (max-width: 1250px)
+            width: 100%
+    
+    .sectionContainer
+        padding: 5rem 3rem
+        width: 100%
+        max-width: 1000px
+
+        .titleContainer
+            display: flex
+            align-items: center
+            gap: 2rem
+
+            button
+                display: flex
+                align-items: center
+                gap: .5rem
+                background-color: var(--dark2)
+                border-radius: 4px
+                padding: .5rem 1rem .5rem .5rem
+                transition: color .4s
+                color: var(--white)
+
+                .icon
+                    color: inherit
+
+                &:hover
+                    color: var(--orange)
+
+            h1
+                color: var(--white)
+                font-size: 33px
+                @media (max-width: 400px)
+                    font-size: 28px
+
+        .meContainer
+            display: flex
+            margin-top: 2rem
+            width: 100%
+            border-radius: 4px
+            background-color: var(--dark2)
+            padding: 2rem
+
+            .formContainer
+                width: 100%
+                display: flex
+                flex-direction: column
+
+                .dateInput
+                    cursor: pointer
+                    position: relative
+
+                    input[type='date']::-webkit-calendar-picker-indicator
+                        background: transparent
+                        bottom: 0
+                        color: transparent
+                        cursor: pointer
+                        height: auto
+                        left: 0
+                        position: absolute
+                        right: 0
+                        top: 0
+                        width: auto
+
+                label
+                    display: flex
+                    flex-direction: column
+                    color: #fff
+                    margin-bottom: 1.5rem
+                    font-weight: bold
+
+                    input
+                        margin-top: .5rem
+                        height: 46px
+                        width: 100%
+                        color: #fff
+                        border-radius: 4px
+                        background-color: var(--dark)
+                        border: 1px solid #424242
+                        padding: 1rem
+
+                    p
+                        font-weight: normal
+                        margin-left: 1rem
+                        font-style: italic
+                        opacity: 0.8
+                        margin-top: .3rem
+
+                    select
+                        margin-top: .5rem
+                        height: 46px
+                        width: 100%
+                        color: #fff
+                        border-radius: 4px
+                        background-color: var(--dark)
+                        border: 1px solid #424242
+                        padding-left: 1rem
+
+                .saveBtn
+                    background-color: var(--orange)
+                    height: 46px
+                    border-radius: 4px
+                    font-weight: bold
+                    transition: filter .4s
+                    display: flex
+                    align-items: center
+                    justify-content: center
+
+                    &:hover
+                        filter: brightness(1.2)
+
+                .logOutBtn
+                    height: 46px
+                    border-radius: 4px
+                    font-weight: bold
+                    border: 2px solid #ff4040
+                    margin-top: 1.5rem
+                    color: #ff4040
+                    transition: .4s
+
+                    &:hover
+                        background-color: #ff4040
+                        color: #fff

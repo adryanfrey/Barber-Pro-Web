@@ -1,0 +1,94 @@
+.navbar
+    padding: 2rem 3rem
+    background-color: var(--dark2)
+    height: 100%
+
+    @media (max-width: 1250px)
+        width: 100%
+        padding: 1.5rem
+        display: flex
+        justify-content: space-between
+        align-items: center
+    
+    .iconContainer
+        display: none
+        cursor: pointer
+        @media (max-width: 1250px)
+            display: block
+
+        &:active
+            transform: scale(1.1)
+
+    h1
+        color: var(--white)
+        font-size: 2rem
+        font-weight: 700
+        margin-bottom: 2rem
+        @media (max-width: 1250px)
+            margin-bottom: 0
+            width: 100%
+            text-align: end
+
+        span
+            color: var(--orange)
+            text-transform: uppercase
+
+    li
+        display: flex
+        align-items: center
+        gap: 1.5rem
+        margin-bottom: 1rem
+        @media (max-width: 1250px)
+            display: none
+
+        .link
+            color: var(--white)
+            transition: color .4s
+
+            &:hover
+                color: var(--orange)
+
+.mobileNavbar
+    position: absolute
+    top: 0
+    left: 0
+    transition: .4s 
+    transform: translate(-100%)
+    z-index: 10
+    padding: 2rem 3rem
+    background-color: var(--dark2)
+    height: 100%
+    display: none
+    @media (max-width: 1250px)
+        display: block
+
+    li
+        display: flex
+        align-items: center
+        gap: 1.5rem
+        margin-bottom: 2rem
+        font-size: 1.5rem
+
+        .link
+            color: var(--white)
+            transition: color .4s
+
+            &:active
+                color: var(--orange)
+    
+    .iconContainer
+        display: flex
+        justify-content: center
+        cursor: pointer
+        margin-top: 4rem
+
+.filter
+    display: none
+    position: absolute
+    top: 0
+    width: 100vw
+    height: 100vh
+    z-index: 6
+    background: rgba(0,0,0, 0.6)
+    @media (max-width: 1250px)
+        display: block
