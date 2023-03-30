@@ -62,7 +62,7 @@ export default function Services() {
             <section className={styles.sectionContainer}>
                 <div className={styles.titleContainer}>
                     <div className={styles.div1}>
-                        <h1>Haircuts Models</h1>
+                        <h1>Services</h1>
                         <button onClick={() => router.push('/newService')}>Register new</button>
                     </div>
 
