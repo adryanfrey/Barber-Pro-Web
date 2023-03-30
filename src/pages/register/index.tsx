@@ -28,8 +28,10 @@ export default function Register() {
     setLoading(true)
     const api = setUpApiClient({})
 
-    if (password !== confirmPassword){
-      return toast.warn('Passwords must be the same')
+    if (password !== confirmPassword) {
+      toast.warn('Passwords must be the same')
+      setLoading(false)
+      return
     }
 
     try {
