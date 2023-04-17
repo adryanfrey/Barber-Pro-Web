@@ -11,7 +11,7 @@ export default function DemoMessage({setDemoMessage}: DemoProps){
     return(
         <>
             <div className={styles.container}>
-                <h1>Create an account for free <br /> to start using BarberPro !</h1>
+                <h1>Create an account for free to start using BarberPro !</h1>
                 <div>
                     <button onClick={setDemoMessage} className={styles.cancelBtn}>Cancel</button>
                     <button onClick={() => Router.push('/register')} className={styles.registerBtn}>Register</button>

@@ -56,7 +56,6 @@ export default function ScheduleModal({ modalVisible, handleModalView, clientDat
 
     const [loading, setLoading] = useState(false)
     const [deleteLoading, setDeleteLoading] = useState(false)
-    const [demoMessage, setDemoMessage] = useState(true)
 
 
     // get data on first load
