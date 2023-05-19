@@ -52,7 +52,6 @@ export default function Schedule() {
     // router
     const router = useRouter()
 
-
     // get Data on first load
     useEffect(() => {
         async function getClients() {

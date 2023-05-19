@@ -30,12 +30,10 @@ export default function NewClient() {
     const [selectedService, setSelectedService] = useState('')
     const [schedule, setSchedule] = useState('')
     const [time, setTime] = useState('Now')
-
     const [servicesList, setServicesList] = useState<ServiceProps[]>()
     const [barbersList, setBarbersList] = useState<BarberProps[]>()
     const [loading, setLoading] = useState(false)
     const router = useRouter()
-
 
 
     // get data on first load
@@ -45,20 +43,17 @@ export default function NewClient() {
             const response = await api.get('/services')
             const response2 = await api.get('/barber')
 
-            const barbers: BarberProps[] = response2.data
             const services: ServiceProps[] = response.data
+            const barbers: BarberProps[] = response2.data
 
-            setSelectedService(services[0].id)
-            setSelectedBarber(barbers[0].id)
+            setSelectedService(services[0]?.id)
+            setSelectedBarber(barbers[0]?.id)
             setServicesList(services.filter(service => service.status === true))
             setBarbersList(barbers.filter(barber => barber.status === true))
-
         }
 
         getData()
     }, [])
-
-
 
 
     const handleSubmit = async (e: FormEvent) => {
@@ -81,6 +76,13 @@ export default function NewClient() {
         }
 
         const dateString = date.toLocaleString()
+
+        // check if the user has created services and added barbers to the system
+        if (servicesList?.length === 0 || barbersList?.length === 0) {
+            toast.warn('You need to first complete your account settings to start adding clients')
+            setLoading(false)
+            return 
+        }
 
         try {
             await api.post('/client', {
@@ -124,6 +126,7 @@ export default function NewClient() {
                                         <option value={barber.id} key={barber.id}>{barber.name}</option>
                                     ))}
                                 </select>
+                                {barbersList?.length === 0 && <p className={styles.noServices}>Add a Barber on the barbers section to start adding clients to your schedule</p>}
                             </label>
 
                             <label>

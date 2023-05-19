@@ -100,7 +100,6 @@ export default function Services() {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const cookies = parseCookies(ctx)
-
     const token = cookies["@barberProToken"]
 
     if (!token) {

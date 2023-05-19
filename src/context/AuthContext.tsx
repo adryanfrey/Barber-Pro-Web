@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useState, ReactNode } from "react";
 import { setUpApiClient } from "@/services/api";
 import { toast } from "react-toastify";
 import {setCookie} from 'nookies'
@@ -9,16 +9,7 @@ interface AuthProviderProps {
 }
 
 interface AuthContextData {
-    user: UserProps 
     signIn: (credentiasl: SignInProps) => Promise<void>
-}
-
-interface UserProps {
-    id: string
-    name: string
-    email: string
-    address: string | null
-    token: string
 }
 
 interface SignInProps{
@@ -31,22 +22,12 @@ export const AuthContext = createContext({} as AuthContextData)
 export function AuthProvider({children}: AuthProviderProps){
 
     const api = setUpApiClient('')
-
-    const [user, setUser] = useState<UserProps>({id: '', name: '', email: '', address: '', token: ''})
     
     async function signIn({email, password}: SignInProps){
         try {
             const response = await api.post('/session', {
                 email,
                 password
-            })
-            
-            setUser({
-                id: response.data.id,
-                name: response.data.name,
-                email: response.data.email,
-                address: response.data.address,
-                token: response.data.token
             })
 
             setCookie(null, '@barberProToken', response.data.token, {
@@ -55,7 +36,6 @@ export function AuthProvider({children}: AuthProviderProps){
             })
 
             api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`
-
             Router.push('/schedule')
 
         } catch (error: any) {
@@ -77,7 +57,7 @@ export function AuthProvider({children}: AuthProviderProps){
     }
 
     return(
-        <AuthContext.Provider value={{user, signIn}}>
+        <AuthContext.Provider value={{signIn}}>
             {children}
         </AuthContext.Provider>
     )
