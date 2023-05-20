@@ -65,12 +65,12 @@ export default function Schedule() {
             // sort clients 
             const clientsSorted = clients.sort((a, b) => {
 
-                // get the time of A
+                // get the time of Client A
                 const timeA = a.schedule.slice(11, 17)
                 const timeASplit = timeA.split(':')
                 const timeANumber = Number(timeASplit.join(''))
 
-                // get the time of B
+                // get the time of Client B
                 const timeB = b.schedule.slice(11, 17)
                 const timeBSplit = timeB.split(':')
                 const timeBNumber = Number(timeBSplit.join(''))
@@ -91,8 +91,7 @@ export default function Schedule() {
             dateTomorrow.setDate(dateTomorrow.getDate() + 1)
             const tomorrow = `${dateTomorrow.getDate().toString().padStart(2, "0")}/${(dateTomorrow.getMonth() + 1).toString().padStart(2, "0")}/${dateTomorrow.getFullYear()}`
 
-
-            // set clients for tomorrow
+            // set clients from tomorrow
             const clientsTomorrowList = clientsSorted.filter(client => client.schedule.includes(tomorrow))
             setClientsTomorrow(clientsTomorrowList)
 

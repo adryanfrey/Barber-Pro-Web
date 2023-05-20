@@ -1,6 +1,5 @@
 import axios, { AxiosError } from 'axios'
 import { destroyCookie, parseCookies } from 'nookies'
-import { AuthTokenError } from './errors/AuthTokenError'
 import Router from 'next/router'
 
 export function setUpApiClient(ctx: any){
@@ -22,7 +21,7 @@ export function setUpApiClient(ctx: any){
                 destroyCookie({}, '@barberProToken')
                 Router.push('/')
            } else {
-             return Promise.reject(new AuthTokenError())
+             return Promise.reject(error)
            }
         }
 
