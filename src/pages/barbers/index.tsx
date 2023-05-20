@@ -1,14 +1,14 @@
 import styles from './styles.module.sass'
 import Navbar from '@/components/navbar/Navbar'
 import { FormEvent, useEffect, useState } from 'react'
-import { GetServerSideProps } from 'next'
-import { parseCookies } from 'nookies'
 import { setUpApiClient } from '@/services/api'
 import { BsFillPersonFill } from 'react-icons/bs'
 import Modal from 'react-modal'
 import { IoIosArrowBack } from 'react-icons/io'
 import { Spinner } from '@chakra-ui/react'
 import { toast } from 'react-toastify'
+import { GetServerSidePropsContext } from 'next'
+import {  parseCookies } from "nookies"
 
 
 interface BarberProps {
@@ -227,12 +227,11 @@ export default function Barbers() {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+// check user Authentication 
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
     const cookies = parseCookies(ctx)
 
-    const token = cookies["@barberProToken"]
-
-    if (!token) {
+    if (!cookies['@barberProToken']) {
         return {
             redirect: {
                 destination: '/',
@@ -246,4 +245,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
         }
     }
-}
+} 

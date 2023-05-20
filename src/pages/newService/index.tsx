@@ -3,12 +3,12 @@ import Navbar from "@/components/navbar/Navbar"
 import { useState } from "react"
 import { FormEvent } from "react"
 import { parseCookies } from "nookies"
-import { GetServerSideProps } from "next"
+import { GetServerSidePropsContext } from "next"
 import { useRouter } from 'next/router'
 import { IoIosArrowBack } from 'react-icons/io'
 import { setUpApiClient } from '@/services/api'
 import { toast } from 'react-toastify'
-import {Spinner} from '@chakra-ui/react'
+import { Spinner } from '@chakra-ui/react'
 
 export default function NewService() {
     const [name, setName] = useState('')
@@ -22,7 +22,7 @@ export default function NewService() {
         setLoading(true)
 
         try {
-           
+
             await api.post('/service', {
                 name,
                 price: Number(price)
@@ -72,11 +72,12 @@ export default function NewService() {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    const cookies = parseCookies(ctx)
-    const token = cookies['@barberProToken']
 
-    if (!token) {
+// check user Authentication 
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
+    const cookies = parseCookies(ctx)
+
+    if (!cookies['@barberProToken']) {
         return {
             redirect: {
                 destination: '/',
@@ -90,4 +91,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
         }
     }
-}
+} 

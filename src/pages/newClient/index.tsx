@@ -3,7 +3,7 @@ import Navbar from "@/components/navbar/Navbar"
 import { useEffect, useState } from "react"
 import { FormEvent } from "react"
 import { parseCookies } from "nookies"
-import { GetServerSideProps } from "next"
+import { GetServerSidePropsContext } from "next"
 import { useRouter } from 'next/router'
 import { IoIosArrowBack } from 'react-icons/io'
 import { setUpApiClient } from '@/services/api'
@@ -187,11 +187,12 @@ export default function NewClient() {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-    const cookies = parseCookies(ctx)
-    const token = cookies['@barberProToken']
 
-    if (!token) {
+// check user Authentication 
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
+    const cookies = parseCookies(ctx)
+
+    if (!cookies['@barberProToken']) {
         return {
             redirect: {
                 destination: '/',
@@ -202,6 +203,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     return {
         props: {
+
         }
     }
-}
+} 

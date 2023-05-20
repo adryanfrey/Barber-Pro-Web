@@ -5,9 +5,8 @@ import { FormEvent, useState, useContext } from 'react'
 import { AuthContext } from '@/context/AuthContext'
 import Link from 'next/link'
 import styles from '@/styles/login.module.sass'
-import {Spinner} from '@chakra-ui/react'
-import { useRouter } from 'next/router'
-import { GetServerSideProps } from 'next'
+import { Spinner } from '@chakra-ui/react'
+import { GetServerSidePropsContext } from 'next'
 import { parseCookies } from 'nookies'
 
 export default function Home() {
@@ -17,7 +16,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
 
   const { signIn } = useContext(AuthContext)
-  const router = useRouter()
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault()
@@ -58,26 +56,22 @@ export default function Home() {
   )
 }
 
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+// check user Authentication 
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
   const cookies = parseCookies(ctx)
 
-  const token = cookies["@barberProToken"]
-
-  console.log(token)
-
-  if (token) {
-    return{
+  if (cookies['@barberProToken']) {
+    return {
       redirect: {
         destination: '/schedule',
         permanent: false
       }
     }
-  }
+  } 
 
-  return{
-    props:{
+  return {
+    props: {
 
     }
   }
-}
+} 

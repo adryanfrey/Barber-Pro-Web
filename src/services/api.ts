@@ -1,5 +1,7 @@
-import axios from 'axios'
-import { parseCookies } from 'nookies'
+import axios, { AxiosError } from 'axios'
+import { destroyCookie, parseCookies } from 'nookies'
+import { AuthTokenError } from './errors/AuthTokenError'
+import Router from 'next/router'
 
 export function setUpApiClient(ctx: any){
     let cookies = parseCookies(ctx)
@@ -9,6 +11,22 @@ export function setUpApiClient(ctx: any){
         headers: {
             Authorization: `Bearer ${cookies['@barberProToken']}`
         }
+    })
+
+    // handle 401 error
+    api.interceptors.response.use(response => {
+        return response
+    }, (error: AxiosError) => {
+        if (error.response?.status === 401){
+           if (typeof window !== undefined) {
+                destroyCookie({}, '@barberProToken')
+                Router.push('/')
+           } else {
+             return Promise.reject(new AuthTokenError())
+           }
+        }
+
+        return Promise.reject(error)
     })
 
     return api

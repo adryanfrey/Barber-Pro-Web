@@ -4,13 +4,12 @@ import { setUpApiClient } from '@/services/api';
 import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { Spinner } from '@chakra-ui/react';
+import { GetServerSidePropsContext } from 'next'
+import {  parseCookies } from "nookies"
 
 // dynamic import otherwise it will get an error
 import dynamic from 'next/dynamic';
 const ApexCharts = dynamic(() => import('react-apexcharts'), { ssr: false })
-
-
-
 
 interface ServiceProps {
     name: string
@@ -39,7 +38,6 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true)
     const [thisWeekRevenue, setThisWeekRevenue] = useState([0])
     const [monthsRevenue, setMonthsRevenue] = useState([0])
-
 
     // get data on first load
     useEffect(() => {
@@ -109,7 +107,6 @@ export default function Dashboard() {
                 })
 
                 setThisWeekRevenue([sundayRevenue, mondayRevenue, tuesdayRevenue, wednesdayRevenue, thursdayRevenue, fridayRevenue, saturdayRevenue])
-
 
                 // get the month
                 const month = today.getMonth()
@@ -211,13 +208,10 @@ export default function Dashboard() {
 
                 setMonthsRevenue([janRevenue, febRevenue, marRevenue, aprilRevenue, mayRevenue, junRevenue, julRevenue, augRevenue, setRevenue, outRevenue, novRevenue, dezRevenue])
 
-
                 setLoading(false)
             } catch (error) {
                 toast.warn('Sorry there was an error, try again later')
             }
-
-
         }
 
         getData()
@@ -332,3 +326,24 @@ export default function Dashboard() {
         </div>
     )
 }
+
+// check user Authentication 
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
+    const cookies = parseCookies(ctx)
+
+    if (!cookies['@barberProToken']) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false
+            }
+        }
+    }
+
+    return {
+        props: {
+
+        }
+    }
+} 
+

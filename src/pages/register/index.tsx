@@ -7,10 +7,10 @@ import Link from 'next/link'
 import styles from './styles.module.sass'
 import { Spinner } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import { GetServerSideProps } from 'next'
 import { parseCookies } from 'nookies'
 import { setUpApiClient } from '@/services/api'
 import { toast } from 'react-toastify'
+import { GetServerSidePropsContext } from 'next'
 
 export default function Register() {
   // states
@@ -95,24 +95,23 @@ export default function Register() {
   )
 }
 
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+// check user Authentication 
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
   const cookies = parseCookies(ctx)
 
-  const token = cookies["@barberProToken"]
-
-  if (token) {
-    return {
-      redirect: {
-        destination: '/schedule',
-        permanent: false
+  if (cookies['@barberProToken']) {
+      return {
+          redirect: {
+              destination: '/schedule',
+              permanent: false
+          }
       }
-    }
   }
 
   return {
-    props: {
+      props: {
 
-    }
+      }
   }
-}
+} 
+

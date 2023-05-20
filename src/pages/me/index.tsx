@@ -1,45 +1,21 @@
 import styles from './styles.module.sass'
 import Navbar from "@/components/navbar/Navbar"
-import { useState, useEffect } from "react"
+import { useState, useContext } from "react"
+import { AuthContext } from '@/context/AuthContext'
 import { FormEvent } from "react"
-import { destroyCookie, parseCookies } from "nookies"
-import { GetServerSideProps } from "next"
-import { useRouter } from 'next/router'
 import { setUpApiClient } from '@/services/api'
 import { toast } from 'react-toastify'
 import { Spinner } from '@chakra-ui/react'
+import { GetServerSidePropsContext } from 'next'
+import {  parseCookies } from "nookies"
 
-
-interface UserProps {
-    id: string
-    email: string
-    name: string
-    address: string
-}
 
 export default function Me() {
-    const [name, setName] = useState('Loading...')
-    const [address, setAddress] = useState('Loading...')
+    const { signOut, user } = useContext(AuthContext) 
+
+    const [name, setName] = useState(user.name)
+    const [address, setAddress] = useState(user.address)
     const [loading, setLoading] = useState(false)
-    const router = useRouter()
-
-
-    // get data on first load
-    useEffect(() => {
-        async function getUserDetails() {
-            const api = setUpApiClient({})
-            const response = await api.get('/me')
-            const user: UserProps = response.data
-
-            setName(user.name)
-            setAddress(user.address)
-
-            if (!user.address) setAddress('')
-        }
-
-        getUserDetails()
-    }, [])
-
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault()
@@ -61,8 +37,7 @@ export default function Me() {
     }
 
     const handleLogOut = () => {
-        destroyCookie({}, '@barberProToken')
-        router.push('/')
+        signOut()
     }
 
     return (
@@ -95,11 +70,11 @@ export default function Me() {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+// check user Authentication 
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
     const cookies = parseCookies(ctx)
-    const token = cookies['@barberProToken']
 
-    if (!token) {
+    if (!cookies['@barberProToken']) {
         return {
             redirect: {
                 destination: '/',
@@ -113,4 +88,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
         }
     }
-}
+} 

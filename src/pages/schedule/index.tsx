@@ -1,16 +1,16 @@
 import styles from './styles.module.sass'
 import Navbar from "@/components/navbar/Navbar"
 import { BsFillPersonFill } from 'react-icons/bs'
-import { GetServerSideProps } from "next"
-import { parseCookies } from "nookies"
 import { useRouter } from 'next/router'
 import { setUpApiClient } from '@/services/api'
-import { MouseEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Spinner } from '@chakra-ui/react'
 import ScheduleModal from '@/components/scheduleModal'
 import { ClientDataProps } from '@/components/scheduleModal'
 import { AiOutlineCheck } from 'react-icons/ai'
 import ConcludeClient from '@/components/concludeClientModal'
+import { GetServerSidePropsContext } from 'next'
+import { parseCookies } from 'nookies'
 
 interface ServiceProps {
     name: string
@@ -36,6 +36,7 @@ interface ClientsProps {
 }
 
 export default function Schedule() {
+
     // clients states
     const [clients, setClients] = useState<ClientsProps[]>([])
     const [clientsToday, setClientsToday] = useState<ClientsProps[]>()
@@ -100,7 +101,6 @@ export default function Schedule() {
         }
 
         getClients()
-
     }, [modalVisible, modalVisible2])
 
 
@@ -318,12 +318,11 @@ export default function Schedule() {
     )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+// check user Authentication 
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
     const cookies = parseCookies(ctx)
 
-    const token = cookies["@barberProToken"]
-
-    if (!token) {
+    if (!cookies['@barberProToken']) {
         return {
             redirect: {
                 destination: '/',
@@ -337,4 +336,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
         }
     }
-}
+} 
