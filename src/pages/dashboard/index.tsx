@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { Spinner } from '@chakra-ui/react';
 import { GetServerSidePropsContext } from 'next'
-import {  parseCookies } from "nookies"
+import { parseCookies } from "nookies"
 
 // dynamic import otherwise it will get an error
 import dynamic from 'next/dynamic';
@@ -53,7 +53,7 @@ export default function Dashboard() {
                 const today = new Date()
                 const dayOfWeek = today.getDay()
                 const startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - dayOfWeek - 7)
-                const endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - dayOfWeek + 6 - 7)
+                const endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - dayOfWeek - 7 + 6)
 
                 let weekDates: string[] = [];
 
@@ -62,14 +62,7 @@ export default function Dashboard() {
                     weekDates.push(dateString.slice(0, 10));
                 }
 
-                let sundayClients = finishedClients.filter(client => client.schedule.includes(weekDates[0]))
-                let mondayClients = finishedClients.filter(client => client.schedule.includes(weekDates[1]))
-                let tuesdayClients = finishedClients.filter(client => client.schedule.includes(weekDates[2]))
-                let wednesdayClients = finishedClients.filter(client => client.schedule.includes(weekDates[3]))
-                let thursdayClients = finishedClients.filter(client => client.schedule.includes(weekDates[4]))
-                let fridayClients = finishedClients.filter(client => client.schedule.includes(weekDates[5]))
-                let saturdayClients = finishedClients.filter(client => client.schedule.includes(weekDates[6]))
-
+                // get the week revenue
                 let sundayRevenue = 0
                 let mondayRevenue = 0
                 let tuesdayRevenue = 0
@@ -78,40 +71,35 @@ export default function Dashboard() {
                 let fridayRevenue = 0
                 let saturdayRevenue = 0
 
-                sundayClients.forEach((client) => {
-                    sundayRevenue += Number(client.service.price)
-                })
+                finishedClients.forEach((client) => {
+                    if (client.schedule.includes(weekDates[0])) {
+                        sundayRevenue += Number(client.service.price)
 
-                mondayClients.forEach((client) => {
-                    mondayRevenue += Number(client.service.price)
-                })
+                    } else if (client.schedule.includes(weekDates[1])) {
+                        mondayRevenue += Number(client.service.price)
 
-                tuesdayClients.forEach((client) => {
-                    tuesdayRevenue += Number(client.service.price)
-                })
-
-                wednesdayClients.forEach((client) => {
-                    wednesdayRevenue += Number(client.service.price)
-                })
-
-                thursdayClients.forEach((client) => {
-                    thursdayRevenue += Number(client.service.price)
-                })
-
-                fridayClients.forEach((client) => {
-                    fridayRevenue += Number(client.service.price)
-                })
-
-                saturdayClients.forEach((client) => {
-                    saturdayRevenue += Number(client.service.price)
+                    } else if (client.schedule.includes(weekDates[2])) {
+                        tuesdayRevenue += Number(client.service.price)
+                        
+                    } else if (client.schedule.includes(weekDates[3])) {
+                        wednesdayRevenue += Number(client.service.price)
+                        
+                    } else if (client.schedule.includes(weekDates[4])) {
+                        thursdayRevenue += Number(client.service.price)
+                        
+                    } else if (client.schedule.includes(weekDates[5])) {
+                        fridayRevenue += Number(client.service.price)
+                        
+                    } else if (client.schedule.includes(weekDates[6])) {
+                        saturdayRevenue += Number(client.service.price)
+                    }
                 })
 
                 setThisWeekRevenue([sundayRevenue, mondayRevenue, tuesdayRevenue, wednesdayRevenue, thursdayRevenue, fridayRevenue, saturdayRevenue])
 
-                // get the month
-                const month = today.getMonth()
-                const startMonth = new Date(today.getFullYear(), today.getMonth() - month, today.getDate())
-                const endMonth = new Date(today.getFullYear(), today.getMonth() - month + 11, today.getDate())
+                // get the months of current year
+                const startMonth = new Date(today.getFullYear(), 0, 1)
+                const endMonth = new Date(today.getFullYear(), 11, 31)
 
                 const months: string[] = []
 
@@ -120,6 +108,7 @@ export default function Dashboard() {
                     months.push(localeString.slice(3, 10))
                 }
 
+                // get the mont revenue
                 let janRevenue = 0
                 let febRevenue = 0
                 let marRevenue = 0
@@ -133,77 +122,44 @@ export default function Dashboard() {
                 let novRevenue = 0
                 let dezRevenue = 0
 
-
                 finishedClients.forEach(client => {
                     if (client.schedule.slice(3, 10).includes(months[0])) {
                         janRevenue += Number(client.service.price)
-                    }
-                })
 
-                finishedClients.forEach(client => {
-                    if (client.schedule.slice(3, 10).includes(months[1])) {
+                    } else if (client.schedule.slice(3, 10).includes(months[1])) {
                         febRevenue += Number(client.service.price)
-                    }
-                })
 
-                finishedClients.forEach(client => {
-                    if (client.schedule.slice(3, 10).includes(months[2])) {
+                    } else if (client.schedule.slice(3, 10).includes(months[2])) {
                         marRevenue += Number(client.service.price)
-                    }
-                })
 
-                finishedClients.forEach(client => {
-                    if (client.schedule.slice(3, 10).includes(months[3])) {
+                    } else if (client.schedule.slice(3, 10).includes(months[3])) {
                         aprilRevenue += Number(client.service.price)
-                    }
-                })
 
-                finishedClients.forEach(client => {
-                    if (client.schedule.slice(3, 10).includes(months[4])) {
+                    } else if (client.schedule.slice(3, 10).includes(months[4])) {
                         mayRevenue += Number(client.service.price)
-                    }
-                })
 
-                finishedClients.forEach(client => {
-                    if (client.schedule.slice(3, 10).includes(months[5])) {
+                    } else if (client.schedule.slice(3, 10).includes(months[5])) {
                         junRevenue += Number(client.service.price)
-                    }
-                })
 
-                finishedClients.forEach(client => {
-                    if (client.schedule.slice(3, 10).includes(months[6])) {
+                    } else if (client.schedule.slice(3, 10).includes(months[6])) {
                         julRevenue += Number(client.service.price)
-                    }
-                })
 
-                finishedClients.forEach(client => {
-                    if (client.schedule.slice(3, 10).includes(months[7])) {
+                    } else if (client.schedule.slice(3, 10).includes(months[7])) {
                         augRevenue += Number(client.service.price)
-                    }
-                })
 
-                finishedClients.forEach(client => {
-                    if (client.schedule.slice(3, 10).includes(months[8])) {
+                    } else if (client.schedule.slice(3, 10).includes(months[8])) {
                         setRevenue += Number(client.service.price)
-                    }
-                })
 
-                finishedClients.forEach(client => {
-                    if (client.schedule.slice(3, 10).includes(months[9])) {
+                    } else if (client.schedule.slice(3, 10).includes(months[9])) {
                         outRevenue += Number(client.service.price)
-                    }
-                })
 
-                finishedClients.forEach(client => {
-                    if (client.schedule.slice(3, 10).includes(months[10])) {
+                    } else if (client.schedule.slice(3, 10).includes(months[10])) {
                         novRevenue += Number(client.service.price)
-                    }
-                })
 
-                finishedClients.forEach(client => {
-                    if (client.schedule.slice(3, 10).includes(months[10])) {
+                    } else if (client.schedule.slice(3, 10).includes(months[11])) {
                         dezRevenue += Number(client.service.price)
-                    }
+
+                    } 
                 })
 
                 setMonthsRevenue([janRevenue, febRevenue, marRevenue, aprilRevenue, mayRevenue, junRevenue, julRevenue, augRevenue, setRevenue, outRevenue, novRevenue, dezRevenue])
@@ -345,5 +301,5 @@ export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
 
         }
     }
-} 
+}
 
